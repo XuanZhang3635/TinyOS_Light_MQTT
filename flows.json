@@ -1,0 +1,134 @@
+[
+    {
+        "id": "57ea9767.92a3c",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ba274ab4.0764d8",
+        "type": "tcp in",
+        "z": "57ea9767.92a3c",
+        "name": "",
+        "server": "client",
+        "host": "localhost",
+        "port": "60001",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "\\n",
+        "topic": "",
+        "base64": false,
+        "x": 520,
+        "y": 400,
+        "wires": [
+            [
+                "b8ca99b1.a58e5",
+                "df02213b.7145d"
+            ]
+        ]
+    },
+    {
+        "id": "b8ca99b1.a58e5",
+        "type": "function",
+        "z": "57ea9767.92a3c",
+        "name": "CreateMQTT",
+        "func": "var ArrayData = msg.payload.split(',');\nvar topic = ArrayData[0];\nvar payload = ArrayData[1];\n\nvar f1 = 0;\nvar f2 = 0;\nvar f3 = 0;\nif(topic === \"TEMP\"){\n  f1 = payload;\n}else if(topic === \"HUM\"){\n  f2 = payload;\n}else if(topic === \"LUM\"){\n  f3 = payload;\n}\n\nmsg.topic='channels/2209664/publish'\nmsg.payload='field1='+f1+'&field2='+f2+'&field3='+f3+'&status=MQTTPUBLISH';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 660,
+        "y": 640,
+        "wires": [
+            [
+                "4f5a2508.1b11dc"
+            ]
+        ]
+    },
+    {
+        "id": "34f7372c.7e367",
+        "type": "mqtt out",
+        "z": "57ea9767.92a3c",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "92d0338e.f2208",
+        "x": 1130,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "df02213b.7145d",
+        "type": "debug",
+        "z": "57ea9767.92a3c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 820,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "4f5a2508.1b11dc",
+        "type": "delay",
+        "z": "57ea9767.92a3c",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "outputs": 1,
+        "x": 1020,
+        "y": 660,
+        "wires": [
+            [
+                "34f7372c.7e367",
+                "443c4a7c.854edc"
+            ]
+        ]
+    },
+    {
+        "id": "443c4a7c.854edc",
+        "type": "debug",
+        "z": "57ea9767.92a3c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1230,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "92d0338e.f2208",
+        "type": "mqtt-broker",
+        "name": "thingspeak",
+        "broker": "mqtt3.thingspeak.com",
+        "port": "1883",
+        "clientid": "IyUhAiYtMwQHASoHJQMjDxQ",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
